@@ -3,7 +3,9 @@
 // be placed in the file, and deletes data previously in the file.
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 // clientData structure definition
+void login(void);
 struct clientData
 {
     unsigned int acctNum; // account number
@@ -23,6 +25,7 @@ int main(int argc, char *argv[])
 {
     FILE *cfPtr;         // credit.dat file pointer
     unsigned int choice; // user's choice
+    login();
 
     // fopen opens the file; exits if file cannot be opened
     if ((cfPtr = fopen("credit.dat", "rb+")) == NULL)
@@ -30,8 +33,41 @@ int main(int argc, char *argv[])
         printf("%s: File could not be opened.\n", argv[0]);
         exit(-1);
     }
+    #include <string.h>
 
-    // enable user to specify action
+void login(void)
+{
+    char username[20];
+    char password[20];
+    int attempts = 0;
+
+    while(attempts < 3)
+    {
+        printf("\n===== LOGIN =====\n");
+
+        printf("Enter Username: ");
+        scanf("%19s", username);
+
+        printf("Enter Password: ");
+        scanf("%19s", password);
+
+        if(strcmp(username, "admin") == 0 &&
+           strcmp(password, "1234") == 0)
+        {
+            printf("\nLogin Successful!\n");
+            return;
+        }
+        else
+        {
+            printf("\nInvalid Username or Password!\n");
+            attempts++;
+        }
+    }
+
+    printf("\nToo many failed attempts!\n");
+    exit(0);
+}
+// enable user to specify action
     while ((choice = enterChoice()) != 5)
     {
         switch (choice)
