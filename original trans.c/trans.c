@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 // clientData structure definition
 void login(void);
 struct clientData
@@ -61,10 +62,19 @@ void login(void)
         {
             printf("\nInvalid Username or Password!\n");
             attempts++;
+
+            if(attempts < 3)
+            {
+                printf("Try Again...\n");
+            }
         }
     }
 
     printf("\nToo many failed attempts!\n");
+    printf("System Locked for 30 seconds...\n");
+
+    Sleep(30000);
+
     exit(0);
 }
 // enable user to specify action
