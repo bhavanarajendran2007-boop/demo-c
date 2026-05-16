@@ -13,6 +13,7 @@ struct clientData
     char lastName[15];    // account last name
     char firstName[10];   // account first name
     double balance;       // account balance
+    char lastTransaction[50];
 };                        // end structure clientData
 
 // prototypes
@@ -177,8 +178,11 @@ void updateRecord(FILE *fPtr)
         printf("%s", "Enter charge ( + ) or payment ( - ): ");
         scanf("%lf", &transaction);
         client.balance += transaction; // update record balance
+        printf(client.lastTransaction,
+        "Transaction Amount: %.2f",
+        transaction);
 
-        printf("%-6d%-16s%-11s%10.2f\n", client.acctNum, client.lastName, client.firstName, client.balance);
+        printf("%-6d%-16s%-11s%10.2f   %s\n", client.acctNum, client.lastName, client.firstName, client.balance);
 
         // move file pointer to correct record in file
         // move back by 1 record length
@@ -250,9 +254,15 @@ void newRecord(FILE *fPtr)
     else
     { // create record
         // user enters last name, first name and balance
-        printf("%s", "Enter lastname, firstname, balance\n? ");
-        scanf("%14s%9s%lf", client.lastName, client.firstName, &client.balance);
-
+        printf("\n%-6s%-16s%-11s%10s   %s\n",
+       "Acct",
+       "Last Name",
+       "First Name",
+       "Balance",
+       "Last Transaction");
+        scanf("%14s%9s%lf", client.lastName, client.firstName, client.balance,client.lastTransaction);
+        strcpy(client.lastTransaction,
+       "Account Created");
         client.acctNum = accountNum;
         // move file pointer to correct record in file
         fseek(fPtr, (client.acctNum - 1) * sizeof(struct clientData), SEEK_SET);
